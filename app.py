@@ -8,6 +8,10 @@ app.config['JSON_AS_ASCII'] = False
 def index():
     return render_template('index.html')
 
+@app.route('/sttdemo')
+def sttdemo():
+    return render_template('stt.html')
+
 @app.route('/translate-text', methods=['POST'])
 def translate_text():
     data = request.get_json()

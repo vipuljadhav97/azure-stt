@@ -1,134 +1,364 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Translate and analyze text with Azure Cognitive Services.">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Translate and analyze text with Azure Cognitive Services</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>TTS Demo Server</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i" rel="stylesheet">
+
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Vendor CSS Files -->
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/vendor/boxicons/css/boxicons.min.css') }}">
+  <!--<link rel= "stylesheet" type= "text/css" href="/home/john/Desktop/TTS/TTS/server/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+  <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/vendor/icofont/icofont.min.css') }}">
+  <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/vendor/boxicons/css/boxicons.min.css') }}" >
+  <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/vendor/venobox/venobox.css') }}">
+  <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/vendor/line-awesome/css/line-awesome.min.css') }}">
+  <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/vendor/owl.carousel/assets/owl.carousel.min.css') }}">
+  <link rel= "stylesheet" type= "text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') }}">
+  <!-- Template Main CSS File -->
+  <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/css/style.css') }}"> 
+
+  <!-- =======================================================
+  * Template Name: Butterfly - v2.2.1
+  * Template URL: https://bootstrapmade.com/butterfly-free-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+
+    <!--<a href="index.html" class="logo mr-auto"><img src="assets/img/logo1.png" alt="" class="img-fluid"></a>
+    <!-- Uncomment below if you prefer to use text as a logo -->
+    <h1 class="logo mr-auto"><a href="#home">TTS</a></h1> 
+
+    <nav class="nav-menu d-none d-lg-block">
+      <ul>
+        <li class="active"><a href="index.html">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <!--<li><a href="ttsdemo.html">TTS Demo</a></li>-->
+        <li><a href="#team">Team</a></li>
+        <!--<li class="drop-down"><a href="">Drop Down</a>-->
+        <li><a href="{{ url_for('sttdemo') }}">STT Demo</a></li>
+        <!--<li><a href="#portfolio">Portfolio</a></li>
+
+          <ul>
+            <li><a href="#">Drop Down 1</a></li>
+            <li class="drop-down"><a href="#">Deep Drop Down</a>
+              <ul>
+                <li><a href="#">Deep Drop Down 1</a></li>
+                <li><a href="#">Deep Drop Down 2</a></li>
+                <li><a href="#">Deep Drop Down 3</a></li>
+                <li><a href="#">Deep Drop Down 4</a></li>
+                <li><a href="#">Deep Drop Down 5</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Drop Down 2</a></li>
+            <li><a href="#">Drop Down 3</a></li>
+            <li><a href="#">Drop Down 4</a></li>
+          </ul>
+        </li>-->
+        <!--<li><a href="#contact">Contact</a></li>-->
+
+      </ul>
+    </nav><!-- .nav-menu -->
+
+  </div>
+</header><!-- End Header -->
+
+
+
+  <!-- ======= Hero Section =======
+  <section id="hero" class="d-flex align-items-center">
+
     <div class="container">
-      <h1>Translate, synthesize, and analyze text with Azure</h1>
-      <p>This simple web app uses Azure for text translation, text-to-speech conversion, and sentiment analysis of input text and translations. Learn more about <a href="https://docs.microsoft.com/azure/cognitive-services/">Azure Cognitive Services</a>.
-      </p>
-      <div class="row">
-        <div class="col">
-        <form>
-            <!-- Enter text to translate. -->
-            <div class="form-group">
-              <label for="text-to-translate"><strong>Enter the text you'd like to translate:</strong></label>
-              <textarea class="form-control" id="text-to-translate" rows="5"></textarea>
-            </div>
-            <!-- Select output language here. -->
-            <div class="form-group">
-              <label for="select-language"><strong>Translate to:</strong></label>
-              <select class="form-control" id="select-language">
-                <option value="ar">Arabic</option>
-                <option value="ca">Catalan</option>
-                <option value="zh-Hans">Chinese (Simplified)</option>
-                <option value="zh-Hant">Chinese (Traditional)</option>
-                <option value="hr">Croatian</option>
-                <option value="en">English</option>
-                <option value="fr">French</option>
-                <option value="de">German</option>
-                <option value="el">Greek</option>
-                <option value="he">Hebrew</option>
-                <option value="hi">Hindi</option>
-                <option value="it">Italian</option>
-                <option value="ja">Japanese</option>
-                <option value="ko">Korean</option>
-                <option value="pt">Portuguese</option>
-                <option value="ru">Russian</option>
-                <option value="es">Spanish</option>
-                <option value="th">Thai</option>
-                <option value="tr">Turkish</option>
-                <option value="vi">Vietnamese</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary mb-2" id="translate">Translate text</button></br>
-            <div id="detected-language" style="display: none">
-              <strong>Detected language:</strong> <span id="detected-language-result"></span><br />
-              <strong>Detection confidence:</strong> <span id="confidence"></span><br /><br />
-            </div>
-            <button type="submit" class="btn btn-primary mb-2" id="sentiment-analysis">Run sentiment analysis</button></br>
-            <div id="sentiment" style="display: none">
-              <p>Sentiment scores are provided on a 1 point scale. The closer the sentiment score is to 1, indicates positive sentiment. The closer it is to 0, indicates negative sentiment.</p>
-              <strong>Sentiment score for input:</strong> <span id="input-sentiment"></span><br />
-              <strong>Sentiment score for translation:</strong> <span id="translation-sentiment"></span>
-            </div>
-          </form>
-          <!-- Translated text returned by the Translate API is rendered here. -->
+          <p style="text-align:center">Speech Recognition, Translation and Synthesis based on GAN’s.</p>
+      <img src="assets/img/7800.jpg" class="img-fluid" alt="">
+          <h2>Accusantium quam, aliquam ultricies eget tempor id, aliquam eget nibh et. Maecen aliquam, risus at semper. Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum.</h2>
+          <div><a href="#about" class="btn-get-started scrollto">Get Started</a></div>
         </div>
-        <div class="col">
-          <form>
-            <div class="form-group" id="translator-text-response">
-              <label for="translation-result"><strong>Translated text:</strong></label>
-              <textarea readonly class="form-control" id="translation-result" rows="5"></textarea>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!--<a class="navbar-brand" href="index.html" ></a> -->
+    <section id="home">
+        <div class="container">
+      <div>
+        <h1 class="text-center pt-5">Speech Recognition, Translation and Synthesis.</h1>
+      </div>
+      <div>
+      <img src="{{url_for('static', filename='7800.jpg')}}" class="img-fluid" alt=""> 
+      
+      </div>
+    </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <h1 class="text-center">Introduction to the Project.</h1>
+        <h2 class="text-left">Speech Synthesis.</h2>
+            <p class="text-justified">Speech synthesis (also abbreviated as TTS, Text-To-Speech), unlike speech recognition, is not a technology that exploits the voice, it produces it. Synthetic voices are generally the final phase of the process and are becoming increasingly democratic. Because they are important in the overall experience of “voice”.</br></br>
+              Speech synthesis (TTS) is defined as the artificial production of human voices. The main use (and what induced its creation) is the ability to translate a text into spoken speech automatically. How does it work?</br></br>
+              TTS is based on what are known as graphemes: the letters and groups of letters that transcribe a phoneme. This means that the basic resource is not the sound, but the text. This is usually done in two steps.</br></br>
+              The first will cut the text into sentences and words (our famous graphemes) and assign phonetic transcriptions, the pronunciation, to all these groups. Once the different text/phonetic groups have been identified, the second step consists of converting these linguistic representations into sound.
+              In other words, to read these indications to produce a voice that will read the information.
+              </p>   
+
+            <h2 class="text-left">Speech Recognition.</h2>
+            <p class="text-justified">Speech recognition, also known as automatic speech recognition (ASR), or speech-to-text, is a capability which enables a program to process human speech into a written format. <br><br>
+              While it’s commonly confused with voice recognition, speech recognition focuses on the translation of speech from a verbal format to a text one whereas voice recognition just seeks to identify an individual user’s voice.
+
+              <h2 class="text-left">Speech Translation.</h2>
+              <p class="text-justified">Speech translation is the process by which conversational spoken phrases are instantly translated and spoken aloud in a second language. <br><br>
+                Speech translation technology enables speakers of different languages to communicate. It thus is of tremendous value for humankind in terms of science, cross-cultural exchange and global business.
+                 
+              </p>   
+            
+            
+                <h3 class="text-center">Project Objectives</h3>
+                <ul>
+                  <li>To translate the speech from on language to another.</li>
+                  <li>Using speech synthesis to keep the voice same as before while changing language.</li>
+                  <li>To integrate the above on a webapp for direct implementation.</li>
+                  <li>To utilize the cloud as much as possible for testing purposes.</li>
+                  </ul>
+              <!--</div>--->
+          
+                <h3 class="text-center">Project Motivation</h3>
+                <ul>
+                  <li>We have chosen this field as it
+                    is a rapidly developing
+                    technology.</li>
+                  <li>It promises the fulfilment of
+                    our professional goals.</li>
+                  <li>By directly applying the theory
+                    we can strengthen our
+                    understanding of this domain.</li>
+                  </ul>
+                </div>   
+    </section>
+
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg teams">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Team</h2>
+          <p>We are the final year students of Computer Engineering Department of Bharati Vidyapeeth's College of Engineering, Lavale, Pune. Our Project is guided by Prof. Ajit Patil. Our team as well as our guide and mentors have been very much supportive with us for building this project. </p>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-md-6 d-flex justify-content-center">
+           
+            <div class="member">
+              <div class="member">
+                <img src="{{url_for('static', filename='Patil_Sir.jpg')}}" class="img-fluid" alt=""> 
+              </div>
+              <div class="member-info text-center">
+                <h4>Prof. Ajit R. Patil</h4>
+                <span>Project Guide</span>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="select-voice"><strong>Select voice font:</strong></label>
-              <select class="form-control" id="select-voice">
-                <option value="(ar-SA, Naayf)">Arabic | Male | Naayf</option>
-                <option value="(ca-ES, HerenaRUS)">Catalan | Female | HerenaRUS</option>
-                <option value="(zh-CN, HuihuiRUS)">Chinese (Mainland) | Female | HuihuiRUS</option>
-                <option value="(zh-CN, Kangkang, Apollo)">Chinese (Mainland) | Male | Kangkang, Apollo</option>
-                <option value="(zh-HK, Tracy, Apollo)">Chinese (Hong Kong)| Female | Tracy, Apollo</option>
-                <option value="(zh-HK, Danny, Apollo)">Chinese (Hong Kong) | Male | Danny, Apollo</option>
-                <option value="(zh-TW, Yating, Apollo)">Chinese (Taiwan)| Female | Yating, Apollo</option>
-                <option value="(zh-TW, Zhiwei, Apollo)">Chinese (Taiwan) | Male | Zhiwei, Apollo</option>
-                <option value="(hr-HR, Matej)">Croatian | Male | Matej</option>
-                <option value="(en-US, Jessa24kRUS)">English (US) | Female | Jessa24kRUS</option>
-                <option value="(en-US, Guy24kRUS)">English (US) | Male | Guy24kRUS</option>
-                <option value="(en-IE, Sean)">English (IE) | Male | Sean</option>
-                <option value="(fr-FR, Julie, Apollo)">French | Female | Julie, Apollo</option>
-                <option value="(fr-FR, HortenseRUS)">French | Female | Julie, HortenseRUS</option>
-                <option value="(fr-FR, Paul, Apollo)">French | Male | Paul, Apollo</option>
-                <option value="(de-DE, Hedda)">German | Female | Hedda</option>
-                <option value="(de-DE, HeddaRUS)">German | Female | HeddaRUS</option>
-                <option value="(de-DE, Stefan, Apollo)">German | Male | Apollo</option>
-                <option value="(el-GR, Stefanos)">Greek | Male | Stefanos</option>
-                <option value="(he-IL, Asaf)">Hebrew (Isreal) | Male | Asaf</option>
-                <option value="(hi-IN, Kalpana, Apollo)">Hindi | Female | Kalpana, Apollo</option>
-                <option value="(hi-IN, Hemant)">Hindi | Male | Hemant</option>
-                <option value="(it-IT, LuciaRUS)">Italian | Female | LuciaRUS</option>
-                <option value="(it-IT, Cosimo, Apollo)">Italian | Male | Cosimo, Apollo</option>
-                <option value="(ja-JP, Ichiro, Apollo)">Japanese | Male | Ichiro</option>
-                <option value="(ja-JP, HarukaRUS)">Japanese | Female | HarukaRUS</option>
-                <option value="(ko-KR, HeamiRUS)">Korean | Female | Haemi</option>
-                <option value="(pt-BR, HeloisaRUS)">Portuguese (Brazil) | Female | HeloisaRUS</option>
-                <option value="(pt-BR, Daniel, Apollo)">Portuguese (Brazil) | Male | Daniel, Apollo</option>
-                <option value="(pt-PT, HeliaRUS)">Portuguese (Portugal) | Female | HeliaRUS</option>
-                <option value="(ru-RU, Irina, Apollo)">Russian | Female | Irina, Apollo</option>
-                <option value="(ru-RU, Pavel, Apollo)">Russian | Male | Pavel, Apollo</option>
-                <option value="(ru-RU, EkaterinaRUS)">Russian | Female | EkaterinaRUS</option>
-                <option value="(es-ES, Laura, Apollo)">Spanish | Female | Laura, Apollo</option>
-                <option value="(es-ES, HelenaRUS)">Spanish | Female | HelenaRUS</option>
-                <option value="(es-ES, Pablo, Apollo)">Spanish | Male | Pablo, Apollo</option>
-                <option value="(th-TH, Pattara)">Thai | Male | Pattara</option>
-                <option value="(tr-TR, SedaRUS)">Turkish | Female | SedaRUS</option>
-                <option value="(vi-VN, An)">Vietnamese | Male | An</option>
-              </select>
-            </div>
-          </form>
-          <button type="submit" class="btn btn-primary mb-2" id="text-to-speech">Convert text-to-speech</button>
-          <div id="audio-playback">
-            <audio id="audio" controls>
-              <source id="audio-source" type="audio/mpeg" />
-            </audio>
           </div>
+
+        </div>
+  
+        <div class="row">
+        
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+           
+            <div class="member team-logo">
+              <div class="member-img">
+                <img src="{{url_for('static', filename='Rushiraj.jpg')}}" class="img-fluid" alt=""> 
+                <div class="social">
+                  <a href="https://www.linkedin.com/in/rushirajchavan"><i class="icofont-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info text-center">
+                <h4>Rushiraj Chavan</h4>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member team-logo">
+              <div class="member-img">
+                <img src="{{url_for('static', filename='Vipul.jpg')}}" class="img-fluid" alt=""> 
+                <div class="social">
+                  <a href="https://www.linkedin.com/in/vipuljadhav97/"><i class="icofont-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info text-center">
+                <h4>Vipul Jadhav</h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member team-logo">
+              <div class="member-img">
+                <img src="{{url_for('static', filename='Yogesh.jpeg')}}" class="img-fluid" alt=""> 
+                <div class="social">
+                  <a href="https://www.linkedin.com/in/yogesh-tekam-09277b192"><i class="icofont-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info text-center">
+                <h4>Yogesh Tekam</h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member team-logo">
+              <div class="member-img">
+                <img src="{{url_for('static', filename='Ashutosh.jpeg')}}" class="img-fluid" alt=""> 
+                <div class="social">
+                  <a href="https://www.linkedin.com/in/ashutosh-pattanayak-93b403113"><i class="icofont-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info text-center">
+                <h4>Ashutosh Pattanayak</h4>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+    
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= 
+  <footer id="footer">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <!--<div class="footer-top">
+      <div class="container">
+        <div class="row">-->
+
+          <!-- <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>Butterfly</h3>
+            <p>
+              A108 Adam Street <br>
+              New York, NY 535022<br>
+              United States <br><br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@example.com<br>
+            </p>
+          </div> -->
+
+          <!--<div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>-->
+
+          <!--<div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+            </ul>
+          </div>--> 
+
+          <!--<div class="text-center footer-links">
+            <h4>Our Social Networks</h4>
+            <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>-->
+
         </div>
       </div>
     </div>
 
+    <div class="container py-4, text-center">
+      <div class="copyright, text-center" >
+        &copy; Copyright <strong><span>TTS DEMO</span></strong>. All Rights Reserved
+      </div>
+      <!--<div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/butterfly-free-bootstrap-theme/ 
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
 
-    <!-- Required JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type = "text/javascript" src ="static/scripts/main.js"></script>
-  </body>
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static',filename='styles/vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/jquery.easing/jquery.easing.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/venobox/venobox.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/waypoints/jquery.waypoints.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/counterup/counterup.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='styles/vendor/owl.carousel/owl.carousel.min.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static',filename='styles/vendor/js/main.js') }}"></script>
+
+</body>
+
 </html>
