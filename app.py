@@ -1,5 +1,6 @@
-from flask import Flask, render_template, url_for, jsonify, request
+from flask import Flask, render_template, url_for, jsonify, request, redirect
 import translate, sentiment, synthesize
+import speech_recognition as sr
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -8,9 +9,26 @@ app.config['JSON_AS_ASCII'] = False
 def index():
     return render_template('index.html')
 
-@app.route('/sttdemo')
+@app.route('/sttdemo', methods=["GET", "POST"])
 def sttdemo():
-    return render_template('stt.html')
+    transcript = ""
+    if request.method == "POST":
+        print("FORM DATA RECEIVED")
+
+        if "file" not in request.files:
+            return redirect(request.url)
+
+        file = request.files["file"]
+        if file.filename == "":
+            return redirect(request.url)
+
+        if file:
+            recognizer = sr.Recognizer()
+            audioFile = sr.AudioFile(file)
+            with audioFile as source:
+                data = recognizer.record(source)
+            transcript = recognizer.recognize_google(data, key=None)
+    return render_template('stt.html', transcript = transcript)
 
 @app.route('/translate-text', methods=['POST'])
 def translate_text():
